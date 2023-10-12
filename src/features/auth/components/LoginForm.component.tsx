@@ -17,7 +17,7 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 import useInput from '../../../hooks/use-input';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
-import { LoginUser } from '../../../models/Auth/login-uset.types';
+import { UserRequest } from '../../../models/Auth/user.types';
 import apiService from '../../../services/api.service';
 
 const LoginFormComponent = () => {
@@ -46,7 +46,7 @@ const LoginFormComponent = () => {
     passwordClearHandler();
   };
 
-  const login = (user: LoginUser) => {
+  const login = (user: UserRequest) => {
     apiService.post('auth/signin', user)
       .then(r => console.log(r))
       .catch(e => console.log(e))
@@ -55,7 +55,7 @@ const LoginFormComponent = () => {
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const loginUser: LoginUser = {
+    const loginUser: UserRequest = {
       name,
       password,
     };
@@ -137,7 +137,7 @@ const LoginFormComponent = () => {
         </Button>
 
         <div className="question">
-          <span>Don't have an account? </span>
+          <span>Don't have a Momentum account? </span>
           <Link to="/signup">Sign Up</Link>
         </div>
       </Grid>

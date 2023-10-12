@@ -4,4 +4,4 @@ export type RegisterForm = {
   confirmPassword: string;
 };
 
-export type LoginUser = Omit<RegisterForm, 'confirmPassword'>;
+export type UserRequest = Omit<RegisterForm, 'confirmPassword'>;
