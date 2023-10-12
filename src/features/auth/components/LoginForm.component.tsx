@@ -18,6 +18,7 @@ import useInput from '../../../hooks/use-input';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { LoginUser } from '../../../models/Auth/login-uset.types';
+import apiService from '../../../services/api.service';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -45,6 +46,12 @@ const LoginFormComponent = () => {
     passwordClearHandler();
   };
 
+  const login = (user: LoginUser) => {
+    apiService.post('auth/signin', user)
+      .then(r => console.log(r))
+      .catch(e => console.log(e))
+  }
+
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -53,7 +60,7 @@ const LoginFormComponent = () => {
       password,
     };
 
-    console.log('LoginUser', loginUser);
+    login(loginUser);
     clearForm();
   };
 
@@ -124,7 +131,7 @@ const LoginFormComponent = () => {
         <Button
           type="submit"
           variant="contained"
-          disabled={isNameError || isPasswordError}
+          disabled={isNameError || isPasswordError || name.length === 0 || password.length === 0}
         >
           Sign In
         </Button>
