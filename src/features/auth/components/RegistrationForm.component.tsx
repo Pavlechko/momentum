@@ -6,9 +6,7 @@ import useInput from '../../../hooks/use-input';
 import { validateName } from '../../../utils/validation/validator-name';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { UserRequest } from '../../../models/Auth/user.types';
-import apiService from '../../../services/api.service';
-
-// import './Auth.css';
+import { registration } from '../../../services/api.service';
 
 const RegistrationFormComponent = () => {
   const [checked, setChecked] = useState(false);
@@ -50,12 +48,6 @@ const RegistrationFormComponent = () => {
     setChecked(false);
   };
 
-  const registration = (user: UserRequest) => {
-    apiService.post('auth/signup', user)
-      .then(r => console.log(r))
-      .catch(e => console.log(e))
-  }
-
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -64,7 +56,6 @@ const RegistrationFormComponent = () => {
       password,
     };
 
-    console.log('NewUser', newUser);
     registration(newUser);
     clearForm();
   };

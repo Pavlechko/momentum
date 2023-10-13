@@ -18,7 +18,7 @@ import useInput from '../../../hooks/use-input';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { UserRequest } from '../../../models/Auth/user.types';
-import apiService from '../../../services/api.service';
+import { login } from '../../../services/api.service';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -45,12 +45,6 @@ const LoginFormComponent = () => {
     nameClearHandler();
     passwordClearHandler();
   };
-
-  const login = (user: UserRequest) => {
-    apiService.post('auth/signin', user)
-      .then(r => console.log(r))
-      .catch(e => console.log(e))
-  }
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

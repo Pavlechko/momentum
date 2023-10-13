@@ -1,8 +1,13 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-import ApiServiceAbstract from "./api-service.abstract"
+import { UserRequest } from "../models/Auth/user.types";
 
-export interface RequestService extends AxiosInstance {}
+type jwt = {
+    exp: number,
+    userId: string,
+    userName: string
+}
 
 export const axiosInstance = axios.create({
     baseURL: "http://localhost:8080/", // .env
@@ -11,20 +16,36 @@ export const axiosInstance = axios.create({
     }
 });
 
-export class ApiService extends ApiServiceAbstract {
-    constructor(private requestService: RequestService) {
-        super();
-    }
+export async function login(user: UserRequest) {
+    getToten('auth/signin', user)
 
-    post = async <R = void, B = unknown>(url: string, body?: B): Promise<R> => {
-        const res = await this.requestService.post<R>(url, body);
-        return res.data;
-    };
-
-    get = async <R = void>(url: string, query?: Record<string, string | number | boolean>): Promise<R> => {
-        const res = await this.requestService.get<R>(url, { params: query });
-        return res.data;
-    };
 }
 
-export default new ApiService(axiosInstance);
+export async function registration(user: UserRequest) {
+    getToten('auth/signup', user)
+}
+
+async function getToten(url: string, user: UserRequest): Promise<void> {
+    const response = await axiosInstance.post(url, user, {
+        headers: {
+            Authorization: "application/json"
+        }
+    })
+    const token = response.headers['authorization'].split(' ')[1]
+
+    localStorage.setItem("token", token);
+    console.log(token)
+}
+
+export function isExpirationToken(token: string): Boolean {
+    if (typeof(token) !== "string") {
+        return false
+    }
+    const jwtData: jwt = jwt_decode(token);
+
+    let num = +jwtData.exp.toString().padEnd(13, '0');
+    if (num - new Date().getTime()) {
+        return true
+    }
+    return false
+}
