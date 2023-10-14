@@ -1,5 +1,5 @@
-import React, { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FormEvent, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Grid,
   Typography,
@@ -15,13 +15,18 @@ import {
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 import useInput from '../../../hooks/use-input';
+import { login } from '../../../services/api.service';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { UserRequest } from '../../../models/Auth/user.types';
-import { login } from '../../../services/api.service';
+import { User, UserContext } from '../../../context/UserContext';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+
+  const {setUser} = useContext(UserContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     text: name,
@@ -53,9 +58,17 @@ const LoginFormComponent = () => {
       name,
       password,
     };
-
-    login(loginUser);
-    clearForm();
+    login(loginUser).then(user => {
+      setUser(user)
+      console.log(user)
+      // if (location.state?.from) {
+      //   navigate(location.state.from)
+      // }
+      navigate('/');
+    })
+    navigate('/');
+    
+    clearForm();    
   };
 
   const handleClickShowPassword = () =>
@@ -133,6 +146,9 @@ const LoginFormComponent = () => {
         <div className="question">
           <span>Don't have a Momentum account? </span>
           <Link to="/signup">Sign Up</Link>
+          <br />
+          <span>Return home?</span>
+          <Link to="/">Home</Link>
         </div>
       </Grid>
     </form>

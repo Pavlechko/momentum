@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
+import { User } from "../context/UserContext";
 
 type jwt = {
     exp: number,
@@ -16,8 +17,8 @@ export const axiosInstance = axios.create({
     }
 });
 
-export async function login(user: UserRequest) {
-    getToten('auth/signin', user)
+export function login(user: UserRequest) {
+   return getToten('auth/signin', user)
 
 }
 
@@ -25,16 +26,29 @@ export async function registration(user: UserRequest) {
     getToten('auth/signup', user)
 }
 
-async function getToten(url: string, user: UserRequest): Promise<void> {
-    const response = await axiosInstance.post(url, user, {
-        headers: {
-            Authorization: "application/json"
-        }
-    })
-    const token = response.headers['authorization'].split(' ')[1]
+async function getToten(url: string, user: UserRequest) {
 
-    localStorage.setItem("token", token);
-    console.log(token)
+    try {
+        const response = await axiosInstance.post(url, user, {
+            headers: {
+                Authorization: "application/json"
+            }
+        })
+        const token = response.headers['authorization'].split(' ')[1]
+    
+        localStorage.setItem("token", token);
+        console.log(token)
+
+        return getUser(token)
+    } catch (error) {
+        console.log(error)
+        return {
+            id: '',
+            name: '',
+            loggedIn: false
+        }
+    }
+    
 }
 
 export function isExpirationToken(token: string): Boolean {
@@ -44,8 +58,26 @@ export function isExpirationToken(token: string): Boolean {
     const jwtData: jwt = jwt_decode(token);
 
     let num = +jwtData.exp.toString().padEnd(13, '0');
-    if (num - new Date().getTime()) {
+
+    if ((num - new Date().getTime()) > 0) {
         return true
     }
     return false
+}
+
+export function getUser(token: string): User {
+    if (typeof(token) !== "string") {
+        return {
+            id: '',
+            name: '',
+            loggedIn: false
+        }
+    } else {
+        const jwtData: jwt = jwt_decode(token);
+        return {
+            id: jwtData.userId,
+            name: jwtData.userName,
+            loggedIn: true            
+        }
+    }
 }
