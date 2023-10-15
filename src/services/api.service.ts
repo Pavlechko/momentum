@@ -1,8 +1,14 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-import ApiServiceAbstract from "./api-service.abstract"
+import { UserRequest } from "../models/Auth/user.types";
+import { User } from "../context/UserContext";
 
-export interface RequestService extends AxiosInstance {}
+type jwt = {
+    exp: number,
+    userId: string,
+    userName: string
+}
 
 export const axiosInstance = axios.create({
     baseURL: "http://localhost:8080/", // .env
@@ -11,20 +17,95 @@ export const axiosInstance = axios.create({
     }
 });
 
-export class ApiService extends ApiServiceAbstract {
-    constructor(private requestService: RequestService) {
-        super();
-    }
+export function login(user: UserRequest) {
+   return getToten('auth/signin', user)
 
-    post = async <R = void, B = unknown>(url: string, body?: B): Promise<R> => {
-        const res = await this.requestService.post<R>(url, body);
-        return res.data;
-    };
-
-    get = async <R = void>(url: string, query?: Record<string, string | number | boolean>): Promise<R> => {
-        const res = await this.requestService.get<R>(url, { params: query });
-        return res.data;
-    };
 }
 
-export default new ApiService(axiosInstance);
+export async function registration(user: UserRequest) {
+    return getToten('auth/signup', user)
+}
+
+async function getToten(url: string, user: UserRequest) {
+
+    try {
+        const response = await axiosInstance.post(url, user, {
+            headers: {
+                Authorization: "application/json"
+            }
+        })
+        const token = response.headers['authorization'].split(' ')[1]
+    
+        localStorage.setItem("token", token);
+        console.log(token)
+
+        return getUser(token)
+    } catch (error) {
+        console.error(error)
+        // throw new Error()
+        return {
+            id: '',
+            name: '',
+            loggedIn: false
+        }
+    }
+    
+}
+
+export function isExpirationToken(token: string): Boolean {
+    if (typeof(token) !== "string") {
+        return false
+    }
+    const jwtData: jwt = jwt_decode(token);
+
+    let num = +jwtData.exp.toString().padEnd(13, '0');
+
+    if ((num - new Date().getTime()) > 0) {
+        return true
+    }
+    return false
+}
+
+export function getUser(token: string): User {
+    if (typeof(token) !== "string") {
+        return {
+            id: '',
+            name: '',
+            loggedIn: false
+        }
+    } else {
+        const jwtData: jwt = jwt_decode(token);
+        return {
+            id: jwtData.userId,
+            name: jwtData.userName,
+            loggedIn: true            
+        }
+    }
+}
+
+export async function getData() {
+
+    const token = localStorage.getItem("token")
+
+    try {
+        const response = await axiosInstance.get("/", {
+            headers: {
+                Authorization: `Bearer ${token ? token : " "}`
+            }
+        })
+        console.log("Response :", response)
+        return response
+        // const responseToken = response.headers['authorization'].split(' ')[1]
+    
+        // localStorage.setItem("token", responseToken);
+        // console.log(token)
+
+        // return getUser(token)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export function getLocalToken() {
+
+}

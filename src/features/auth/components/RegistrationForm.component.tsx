@@ -1,21 +1,17 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Grid, Typography, TextField, Button, Checkbox } from '@mui/material';
 
 import useInput from '../../../hooks/use-input';
 import { validateName } from '../../../utils/validation/validator-name';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { UserRequest } from '../../../models/Auth/user.types';
-import apiService from '../../../services/api.service';
-
-// import './Auth.css';
+import { registration } from '../../../services/api.service';
+import { UserContext } from '../../../context/UserContext';
 
 const RegistrationFormComponent = () => {
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
-  };
+  const {setUser} = useContext(UserContext);
+  const navigate = useNavigate();
 
   const {
     text: name,
@@ -47,14 +43,7 @@ const RegistrationFormComponent = () => {
     nameClearHandler();
     passwordClearHandler();
     confirmPasswordClearHandler();
-    setChecked(false);
   };
-
-  const registration = (user: UserRequest) => {
-    apiService.post('auth/signup', user)
-      .then(r => console.log(r))
-      .catch(e => console.log(e))
-  }
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,8 +53,16 @@ const RegistrationFormComponent = () => {
       password,
     };
 
-    console.log('NewUser', newUser);
-    registration(newUser);
+    registration(newUser).then(user => {
+      console.log("User registration then")
+      setUser(user)
+      if (user.loggedIn) {
+        navigate('/');
+      }
+    })
+    .catch(error => {
+      console.error(error)
+    })
     clearForm();
   };
 
@@ -121,28 +118,13 @@ const RegistrationFormComponent = () => {
           }
         />
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <Checkbox required checked={checked} onChange={handleChange} />
-          <div>
-            <span>I have read and agree to the </span>
-            <a href="#">Terms of Service</a>
-          </div>
-        </div>
-
         <Button
           type="submit"
           variant="contained"
           disabled={
             confirmPassword !== password ||
             isNameError ||
-            isPasswordError ||
-            !checked
+            isPasswordError
           }
         >
           Sign Up
