@@ -82,3 +82,30 @@ export function getUser(token: string): User {
         }
     }
 }
+
+export async function getData() {
+
+    const token = localStorage.getItem("token")
+
+    try {
+        const response = await axiosInstance.get("/", {
+            headers: {
+                Authorization: `Bearer ${token ? token : " "}`
+            }
+        })
+        console.log("Response :", response)
+        return response
+        // const responseToken = response.headers['authorization'].split(' ')[1]
+    
+        // localStorage.setItem("token", responseToken);
+        // console.log(token)
+
+        // return getUser(token)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export function getLocalToken() {
+
+}
