@@ -23,7 +23,7 @@ export function login(user: UserRequest) {
 }
 
 export async function registration(user: UserRequest) {
-    getToten('auth/signup', user)
+    return getToten('auth/signup', user)
 }
 
 async function getToten(url: string, user: UserRequest) {
@@ -41,7 +41,8 @@ async function getToten(url: string, user: UserRequest) {
 
         return getUser(token)
     } catch (error) {
-        console.log(error)
+        console.error(error)
+        // throw new Error()
         return {
             id: '',
             name: '',

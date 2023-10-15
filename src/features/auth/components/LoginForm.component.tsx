@@ -60,13 +60,10 @@ const LoginFormComponent = () => {
     };
     login(loginUser).then(user => {
       setUser(user)
-      console.log(user)
-      // if (location.state?.from) {
-      //   navigate(location.state.from)
-      // }
-      navigate('/');
+      if (user.loggedIn) {
+        navigate('/');
+      }
     })
-    navigate('/');
     
     clearForm();    
   };
