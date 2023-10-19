@@ -27,7 +27,6 @@ export async function registration(user: UserRequest) {
 }
 
 async function getToten(url: string, user: UserRequest) {
-
     try {
         const response = await axiosInstance.post(url, user, {
             headers: {
@@ -52,7 +51,7 @@ async function getToten(url: string, user: UserRequest) {
     
 }
 
-export function isExpirationToken(token: string): Boolean {
+export function isExpirationToken(token: string): boolean {
     if (typeof(token) !== "string") {
         return false
     }
@@ -84,7 +83,7 @@ export function getUser(token: string): User {
 }
 
 export async function getData() {
-
+    console.log("GET DATA")
     const token = localStorage.getItem("token")
 
     try {

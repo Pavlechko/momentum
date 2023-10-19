@@ -2,11 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./pages/Login.page";
 import RegistrationPage from "./pages/Registration.page";
-import HomePage from "./pages/Home.page";
-import { getUser, isExpirationToken } from "./services/api.service";
-import { useContext, useEffect } from "react";
-import { UserContext } from "./context/UserContext";
-
+import ProtectHome from "./pages/ProtectHome.page";
 
 function App() {
 
@@ -14,11 +10,9 @@ function App() {
     <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<RegistrationPage />} />
+          <Route path="/" element={<ProtectHome />} />
           <Route path="/signin" element={<LoginPage />} />
-          {/* <Route element={<ProtectedRoutes />}> */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={'NotFoundPage /'} />
-          {/* </Route> */}
+          <Route path="*" element={'NotFoundPage /'} />
         </Routes>
       </BrowserRouter>
   );
