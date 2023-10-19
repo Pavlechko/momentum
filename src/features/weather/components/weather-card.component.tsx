@@ -13,7 +13,7 @@ const WeatherCard: FC<Props> = ({weatherData}) => {
     };
 
     return (
-        <Card variant="outlined" sx={{ maxWidth: 300 }}>
+        <Card variant="outlined" sx={{ maxWidth: 320 }}>
           <CardContent>
             <Typography variant="h5" component="div">
               {weatherData.city}
@@ -33,7 +33,7 @@ const WeatherCard: FC<Props> = ({weatherData}) => {
                 </Typography>
             </Box>
             <Typography variant="subtitle1" color="text.secondary">
-                Humidity: {weatherData.humidity}% Wind speed: {weatherData.wind_speed}m/s
+                Humidity: {weatherData.humidity}% Wind speed: {weatherData.wind_speed}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Source: {weatherData.source}
