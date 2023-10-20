@@ -1,38 +1,11 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import WeatherPage from "./Weather.page";
 import { getData, isExpirationToken } from "../services/api.service";
 import { UserContext } from "../context/UserContext";
-import { ResponseData } from "../models/response.types";
-import WeatherPage from "./Weather.page";
-
-
-
-const initialData: ResponseData = {
-  Weather: {
-    OpenWeather: {
-      icon: "string",
-      feels_like: 0,
-      humidity: 0,
-      city: "string",
-      source: "string",
-      wind_speed: 0,
-      temp: 0,
-      main: "string"
-    },
-    TomorrowWeather: {
-      icon: "string",
-      feels_like: 0,
-      humidity: 0,
-      city: "string",
-      source: "string",
-      wind_speed: 0,
-      temp: 0,
-      main: "string"
-    }
-  }
-  
-}
+import { initialData } from "../utils/initialData";
+import QuoteCard from "../features/quote/components/quote-card.component";
 
 const HomePage = () => {
   let isToken = isExpirationToken(localStorage.getItem("token")!)
@@ -47,8 +20,12 @@ const HomePage = () => {
     if (isToken) {
       getData()
         .then(data => {
-          console.log(data?.data)
-          setData(data?.data)
+          if (data) {
+            console.log(data.data)
+            setData(data.data)
+          } else {
+            console.log("from else")
+          }
         })
     }
   }, [user])
@@ -76,6 +53,7 @@ const HomePage = () => {
         </tbody>
       </table>
       <WeatherPage weatherData={data.Weather} />
+      <QuoteCard quoteData={data.Quote} />
     </>
   )
 };
