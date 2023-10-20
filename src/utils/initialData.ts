@@ -26,5 +26,12 @@ export const initialData: ResponseData = {
     Quote: {
         author: "string",
         content: "string"
+    },
+    Backgroung: {
+      alt: "string",
+      image: "string",
+      photographer: "string",
+      sourse: "string",
+      sourse_url: "string",
     }
 }

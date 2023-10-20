@@ -7,6 +7,8 @@ import { UserContext } from "../context/UserContext";
 import { initialData } from "../utils/initialData";
 import QuoteCard from "../features/quote/components/quote-card.component";
 
+import "./Home.style.css";
+
 const HomePage = () => {
   let isToken = isExpirationToken(localStorage.getItem("token")!)
   const { user } = useContext(UserContext)
@@ -31,7 +33,7 @@ const HomePage = () => {
   }, [user])
 
   return(
-    <>
+    <div className="home" style={{backgroundImage: `url("${data.Backgroung.image}")`}}>
       <Link to="/signin">Login</Link>
       <table style={{border: "1px solid"}}>
         <tbody>
@@ -54,7 +56,7 @@ const HomePage = () => {
       </table>
       <WeatherPage weatherData={data.Weather} />
       <QuoteCard quoteData={data.Quote} />
-    </>
+    </div>
   )
 };
 
