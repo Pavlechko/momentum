@@ -6,3 +6,7 @@
 .quote h6{
     color: whitesmoke;
 }
+
+.quote-text {
+    user-select: text;
+}
