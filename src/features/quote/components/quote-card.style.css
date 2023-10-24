@@ -1,4 +1,8 @@
-.quote {
+.quote > h6 {
     width: 100vw;
     text-align: center;
+}
+
+.quote h6{
+    color: whitesmoke;
 }

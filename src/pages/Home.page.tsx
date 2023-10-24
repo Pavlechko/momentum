@@ -2,24 +2,24 @@ import { FC, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import WeatherPage from "./Weather.page";
-import { getData, isExpirationToken } from "../services/api.service";
+import { getData, } from "../services/api.service";
 import { UserContext } from "../context/UserContext";
 import { initialData } from "../utils/initialData";
 import QuoteCard from "../features/quote/components/quote-card.component";
+import Greeting from "../features/greeting/components/greeting.component";
 
 import "./Home.style.css";
 
 const HomePage = () => {
-  let isToken = isExpirationToken(localStorage.getItem("token")!)
   const { user } = useContext(UserContext)
   const [data, setData] = useState(initialData)
 
-  console.log("Home page", isToken, user)
+  console.log('Home page is rendering!');
 
   useEffect(() => {
-    console.log("USE EFFECT!")
-    console.log("USE EFFECT! TOKEN", isToken)
-    if (isToken) {
+    console.log("USE EFFECT Home page!")
+    if (user.loggedIn) {
+      
       getData()
         .then(data => {
           if (data) {
@@ -30,30 +30,12 @@ const HomePage = () => {
           }
         })
     }
-  }, [user])
+  }, [user.loggedIn])
 
   return(
-    <div className="home" style={{backgroundImage: `url("${data.Backgroung.image}")`}}>
+    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.image}")`}}>
       <Link to="/signin">Login</Link>
-      <table style={{border: "1px solid"}}>
-        <tbody>
-          <tr>
-            <th>Home page</th>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr>
-            <td>ID:</td>
-            <td>{user.id}</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr>
-            <td>Name:</td>
-            <td>{user.name}</td>
-          </tr>
-        </tbody>
-      </table>
+      <Greeting name={user.name} />
       <WeatherPage weatherData={data.Weather} />
       <QuoteCard quoteData={data.Quote} />
     </div>
