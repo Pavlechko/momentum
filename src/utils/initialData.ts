@@ -28,10 +28,19 @@ export const initialData: ResponseData = {
         content: "string"
     },
     Backgroung: {
-      alt: "string",
-      image: "string",
-      photographer: "string",
-      sourse: "string",
-      sourse_url: "string",
+      Pexels: {
+        alt: "string",
+        image: "string",
+        photographer: "string",
+        source: "string",
+        source_url: "string",
+      },
+      Unsplash: {
+        alt: "string",
+        image: "string",
+        photographer: "string",
+        source: "string",
+        source_url: "string",
+      }
     }
 }
