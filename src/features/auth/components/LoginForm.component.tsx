@@ -19,7 +19,7 @@ import { login } from '../../../services/api.service';
 import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { UserRequest } from '../../../models/Auth/user.types';
-import { User, UserContext } from '../../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
