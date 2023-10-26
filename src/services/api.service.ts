@@ -1,9 +1,8 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
 import { User } from "../context/UserContext";
-import { UserError } from "../models/Auth/error.types";
 
 type jwt = {
     exp: number,
@@ -43,13 +42,13 @@ async function getToten(url: string, user: UserRequest) {
     } catch (error) {
         console.error(error)
         // throw new Error()
-        if (error instanceof UserError)
+        if (error instanceof AxiosError)
         return {
             id: '',
             name: '',
             loggedIn: false,
             isError: true,
-            message: error.response.data.Error
+            message: error.response?.data?.Error
         }
 
         return {

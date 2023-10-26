@@ -20,6 +20,7 @@ import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { UserRequest } from '../../../models/Auth/user.types';
 import { UserContext } from '../../../context/UserContext';
+import { error } from 'console';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -62,7 +63,12 @@ const LoginFormComponent = () => {
       setUser(user)
       if (user.loggedIn) {
         navigate('/');
+      } else if (user.isError) {
+      console.log("From cath in Login Gorm", user.message)
+
       }
+    }).catch(error => {
+      console.log("From cath in Login Gorm", error)
     })
     
     clearForm();    
