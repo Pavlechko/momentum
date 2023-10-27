@@ -1,5 +1,5 @@
 import React, { FormEvent, useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Grid,
   Typography,
@@ -13,6 +13,8 @@ import {
   FormHelperText,
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import useInput from '../../../hooks/use-input';
 import { login } from '../../../services/api.service';
@@ -20,14 +22,13 @@ import { validatePasswod } from '../../../utils/validation/validator-length';
 import { validateName } from '../../../utils/validation/validator-name';
 import { UserRequest } from '../../../models/Auth/user.types';
 import { UserContext } from '../../../context/UserContext';
-import { error } from 'console';
+
+import './Auth.styles.css';
 
 const LoginFormComponent = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-
   const {setUser} = useContext(UserContext);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
 
   const {
     text: name,
@@ -62,13 +63,18 @@ const LoginFormComponent = () => {
     login(loginUser).then(user => {
       setUser(user)
       if (user.loggedIn) {
-        navigate('/');
+        toast.success('Login successful!', {
+          hideProgressBar: true,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 2000)
       } else if (user.isError) {
-      console.log("From cath in Login Gorm", user.message)
-
+        toast.error(user.message, {
+        hideProgressBar: true,
+        progress: 0,
+        });
       }
-    }).catch(error => {
-      console.log("From cath in Login Gorm", error)
     })
     
     clearForm();    
@@ -149,11 +155,9 @@ const LoginFormComponent = () => {
         <div className="question">
           <span>Don't have a Momentum account? </span>
           <Link to="/signup">Sign Up</Link>
-          <br />
-          <span>Return home?</span>
-          <Link to="/">Home</Link>
         </div>
       </Grid>
+      <ToastContainer className="toast-text" transition={Zoom} />
     </form>
   );
 };
