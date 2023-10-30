@@ -42,5 +42,12 @@ export const initialData: ResponseData = {
         source: "string",
         source_url: "string",
       }
-    }
+    },
+    Exchange: [
+      {
+      currency: "string",
+	    rate: 0,
+	    symbol: "string",
+      }
+    ]
 }

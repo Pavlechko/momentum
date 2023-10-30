@@ -37,6 +37,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
                 responseData.Weather = res.Weather;
                 responseData.Quote = res.Quote;
                 responseData.Backgroung = res.Backgroung
+                responseData.Exchange = res.Exchange
                 setData(res)
               } else {
                 console.log("from else")
