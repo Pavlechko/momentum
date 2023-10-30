@@ -1,5 +1,11 @@
-export type NBU = {
-	currency: string,
-	rate: number,
-	symbol: string,
+export type Rate = {
+	change: number,
+	end_rate: number,
+}
+
+type ExchangeData = {
+	[symbol: string]: Rate
+}
+export type Exchange = {
+	NBU: ExchangeData
 }

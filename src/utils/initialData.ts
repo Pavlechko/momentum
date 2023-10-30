@@ -43,11 +43,12 @@ export const initialData: ResponseData = {
         source_url: "string",
       }
     },
-    Exchange: [
-      {
-      currency: "string",
-	    rate: 0,
-	    symbol: "string",
+    Exchange: {
+      NBU: {
+        USD: {
+          change: 0,
+          end_rate: 0
+        }
       }
-    ]
+    }
 }
