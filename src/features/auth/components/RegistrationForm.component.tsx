@@ -1,6 +1,8 @@
-import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Grid, Typography, TextField, Button, Checkbox } from '@mui/material';
+import { Grid, Typography, TextField, Button } from '@mui/material';
+import { ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import useInput from '../../../hooks/use-input';
 import { validateName } from '../../../utils/validation/validator-name';
@@ -8,6 +10,8 @@ import { validatePasswod } from '../../../utils/validation/validator-length';
 import { UserRequest } from '../../../models/Auth/user.types';
 import { registration } from '../../../services/api.service';
 import { UserContext } from '../../../context/UserContext';
+
+import './Auth.styles.css';
 
 const RegistrationFormComponent = () => {
   const {setUser} = useContext(UserContext);
@@ -54,15 +58,22 @@ const RegistrationFormComponent = () => {
     };
 
     registration(newUser).then(user => {
-      console.log("User registration then")
       setUser(user)
       if (user.loggedIn) {
-        navigate('/');
+        toast.success('Registration successful!', {
+          hideProgressBar: true,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 2000)
+      } else if (user.isError) {
+        toast.error(user.message, {
+        hideProgressBar: true,
+        progress: 0,
+        });
       }
     })
-    .catch(error => {
-      console.error(error)
-    })
+
     clearForm();
   };
 
@@ -135,6 +146,7 @@ const RegistrationFormComponent = () => {
           <Link to="/signin">Sign In</Link>
         </div>
       </Grid>
+      <ToastContainer className="toast-text" transition={Zoom} />
     </form>
   );
 };

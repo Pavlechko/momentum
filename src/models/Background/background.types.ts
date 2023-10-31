@@ -1,7 +1,12 @@
-export type Background = {
+export type BackgroundData = {
     alt: string,
     image: string,
     photographer: string,
-    sourse: string,
-    sourse_url: string,
+    source: string,
+    source_url: string,
+}
+
+export type Background = {
+    Pexels: BackgroundData,
+    Unsplash: BackgroundData,
 }
