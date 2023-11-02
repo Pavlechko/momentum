@@ -41,11 +41,7 @@ async function getToten(url: string, user: UserRequest) {
         return getUser(token)
     } catch (error) {
         console.error(error)
-<<<<<<< HEAD
-=======
-        // throw new Error()
         if (error instanceof AxiosError)
->>>>>>> 6b2b3cb27ad7bcafd33a8b6ba4e477118fc38615
         return {
             id: '',
             name: '',
