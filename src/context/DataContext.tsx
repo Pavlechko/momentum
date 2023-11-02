@@ -40,7 +40,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
                 responseData.Exchange = res.Exchange
                 setData(res)
               } else {
-                console.log("from else")
+                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
               }
             })
         }
