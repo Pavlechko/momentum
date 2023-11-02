@@ -26,5 +26,21 @@ export const initialData: ResponseData = {
     Quote: {
         author: "string",
         content: "string"
+    },
+    Backgroung: {
+      Pexels: {
+        alt: "string",
+        image: "string",
+        photographer: "string",
+        source: "string",
+        source_url: "string",
+      },
+      Unsplash: {
+        alt: "string",
+        image: "string",
+        photographer: "string",
+        source: "string",
+        source_url: "string",
+      }
     }
 }

@@ -1,0 +1,19 @@
+.css-1rwjz6-MuiCardActions-root {
+    padding: 0 8px;
+
+}
+
+.css-46bh2p-MuiCardContent-root {
+    padding-bottom: 0;
+    color: whitesmoke;
+}
+
+.css-1jgmn5n-MuiTypography-root,
+.css-r40f8v-MuiTypography-root,
+.css-3ogxn6-MuiButtonBase-root-MuiIconButton-root,
+.css-1eomvmf-MuiButtonBase-root-MuiIconButton-root,
+.css-1g12qau-MuiSvgIcon-root-MuiNativeSelect-icon,
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root,
+.css-v66gld-MuiPaper-root-MuiCard-root h6 {
+    color: whitesmoke;
+}

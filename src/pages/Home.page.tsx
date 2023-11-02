@@ -1,60 +1,35 @@
-import { FC, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import Button from "@mui/material/Button";
+import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 
-import WeatherPage from "./Weather.page";
-import { getData, isExpirationToken } from "../services/api.service";
 import { UserContext } from "../context/UserContext";
-import { initialData } from "../utils/initialData";
+import { DataContext } from "../context/DataContext";
+import WeatherPage from "./Weather.page";
 import QuoteCard from "../features/quote/components/quote-card.component";
+import Greeting from "../features/greeting/components/greeting.component";
+
+import "./Home.style.css";
+
 
 const HomePage = () => {
-  let isToken = isExpirationToken(localStorage.getItem("token")!)
   const { user } = useContext(UserContext)
-  const [data, setData] = useState(initialData)
-
-  console.log("Home page", isToken, user)
-
-  useEffect(() => {
-    console.log("USE EFFECT!")
-    console.log("USE EFFECT! TOKEN", isToken)
-    if (isToken) {
-      getData()
-        .then(data => {
-          if (data) {
-            console.log(data.data)
-            setData(data.data)
-          } else {
-            console.log("from else")
-          }
-        })
-    }
-  }, [user])
+  const { data } = useContext(DataContext)
+  
+  const clickHandler = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
 
   return(
-    <>
-      <Link to="/signin">Login</Link>
-      <table style={{border: "1px solid"}}>
-        <tbody>
-          <tr>
-            <th>Home page</th>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr>
-            <td>ID:</td>
-            <td>{user.id}</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr>
-            <td>Name:</td>
-            <td>{user.name}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.Unsplash.image}")`}}>
+      <Button variant="contained" size="large" sx={{backgroundColor: "transparent", fontSize: 18}} endIcon={<FollowTheSignsIcon />} onClick={clickHandler}>SignOut</Button>
+      <Greeting name={user.name} />
       <WeatherPage weatherData={data.Weather} />
       <QuoteCard quoteData={data.Quote} />
-    </>
+      <div className="background-text">
+        <a href={data.Backgroung.Unsplash.source_url} target="_blank">{data.Backgroung.Unsplash.photographer} / {data.Backgroung.Unsplash.source}</a>
+      </div>
+    </div>
   )
 };
 

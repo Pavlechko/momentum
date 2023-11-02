@@ -5,6 +5,8 @@ export type User = {
     id: string
     name: string
     loggedIn: boolean
+    isError: boolean
+    message: string
 }
 
 export interface UserContextInterface {
@@ -16,7 +18,9 @@ const defaultState = {
     user: {
         id: '',
         name: '',
-        loggedIn: false
+        loggedIn: false,
+        isError: false,
+        message: '',
     },
     setUser: (user: User) => {}
 } as UserContextInterface
@@ -34,6 +38,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     let id = 'Wrong';
     let name = 'Wrong';
     let loggedIn = false;
+    let isError = false;
+    let message = '';
 
 
     useEffect(() => {
@@ -42,6 +48,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             id = userFromLocal.id;
             name = userFromLocal.name;
             loggedIn = userFromLocal.loggedIn;
+            isError = userFromLocal.isError;
+            message = userFromLocal.message;
             
             setUser(userFromLocal)
         }
@@ -50,7 +58,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [user, setUser] = useState<User>({
         id,
         name,
-        loggedIn
+        loggedIn,
+        isError,
+        message
     });
 
     console.log("User Context", user);
