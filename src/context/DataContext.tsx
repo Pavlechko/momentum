@@ -39,7 +39,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
                 responseData.Backgroung = res.Backgroung
                 setData(res)
               } else {
-                console.log("from else")
+                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
               }
             })
         }

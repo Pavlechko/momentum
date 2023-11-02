@@ -11,7 +11,7 @@ type jwt = {
 }
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080/", // .env
+    baseURL: "http://localhost:8080/",
     headers: {
         "Content-type": "application/json"
     }
@@ -41,7 +41,6 @@ async function getToten(url: string, user: UserRequest) {
         return getUser(token)
     } catch (error) {
         console.error(error)
-        // throw new Error()
         return {
             id: '',
             name: '',
@@ -83,7 +82,6 @@ export function getUser(token: string): User {
 }
 
 export async function getData() {
-    console.log("GET DATA")
     const token = localStorage.getItem("token")
 
     try {
@@ -94,12 +92,7 @@ export async function getData() {
         })
         console.log("Response :", response)
         return response
-        // const responseToken = response.headers['authorization'].split(' ')[1]
-    
-        // localStorage.setItem("token", responseToken);
-        // console.log(token)
 
-        // return getUser(token)
     } catch (error) {
         console.error(error)
     }
