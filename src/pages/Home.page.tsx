@@ -20,7 +20,6 @@ const HomePage = () => {
     localStorage.removeItem("token");
     window.location.reload();
   }
-  console.log('Home page is rendering!');
 
   return(
     <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.Unsplash.image}")`}}>
