@@ -49,6 +49,12 @@ export const initialData: ResponseData = {
           change: 0,
           end_rate: 0
         }
+      },
+      Layer: {
+        USD: {
+          change: 0,
+          end_rate: 0
+        }
       }
     }
 }
