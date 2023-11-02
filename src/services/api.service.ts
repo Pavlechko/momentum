@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
@@ -41,10 +41,25 @@ async function getToten(url: string, user: UserRequest) {
         return getUser(token)
     } catch (error) {
         console.error(error)
+<<<<<<< HEAD
+=======
+        // throw new Error()
+        if (error instanceof AxiosError)
+>>>>>>> 6b2b3cb27ad7bcafd33a8b6ba4e477118fc38615
         return {
             id: '',
             name: '',
-            loggedIn: false
+            loggedIn: false,
+            isError: true,
+            message: error.response?.data?.Error
+        }
+
+        return {
+            id: '',
+            name: '',
+            loggedIn: false,
+            isError: true,
+            message: "Unexpected error type"
         }
     }
     
@@ -69,14 +84,18 @@ export function getUser(token: string): User {
         return {
             id: '',
             name: '',
-            loggedIn: false
+            loggedIn: false,
+            isError: true,
+            message: 'Invalid type of token',
         }
     } else {
         const jwtData: jwt = jwt_decode(token);
         return {
             id: jwtData.userId,
             name: jwtData.userName,
-            loggedIn: true            
+            loggedIn: true,
+            isError: false,
+            message: '',
         }
     }
 }

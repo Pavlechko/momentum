@@ -21,11 +21,14 @@ const HomePage = () => {
   }
 
   return(
-    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.image}")`}}>
+    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.Unsplash.image}")`}}>
       <Button variant="contained" size="large" sx={{backgroundColor: "transparent", fontSize: 18}} endIcon={<FollowTheSignsIcon />} onClick={clickHandler}>SignOut</Button>
       <Greeting name={user.name} />
       <WeatherPage weatherData={data.Weather} />
       <QuoteCard quoteData={data.Quote} />
+      <div className="background-text">
+        <a href={data.Backgroung.Unsplash.source_url} target="_blank">{data.Backgroung.Unsplash.photographer} / {data.Backgroung.Unsplash.source}</a>
+      </div>
     </div>
   )
 };
