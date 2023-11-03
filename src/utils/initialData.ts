@@ -42,5 +42,13 @@ export const initialData: ResponseData = {
         source: "string",
         source_url: "string",
       }
+    },
+    Exchange: {
+      NBU: {
+        USD: {
+          change: 0,
+          end_rate: 0
+        }
+      }
     }
 }
