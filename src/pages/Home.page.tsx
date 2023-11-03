@@ -10,6 +10,7 @@ import QuoteCard from "../features/quote/components/quote-card.component";
 import Greeting from "../features/greeting/components/greeting.component";
 
 import "./Home.style.css";
+import MarketPage from "./Market.page";
 
 
 const HomePage = () => {
@@ -27,6 +28,7 @@ const HomePage = () => {
       <Greeting name={user.name} />
       <WeatherPage weatherData={data.Weather} />
       <ExchangePage exchangeData={data.Exchange} />
+      <MarketPage marketData={data.Market} />
       <QuoteCard quoteData={data.Quote} />
       <div className="background-text">
         <a href={data.Backgroung.Unsplash.source_url} target="_blank">{data.Backgroung.Unsplash.photographer} / {data.Backgroung.Unsplash.source}</a>
