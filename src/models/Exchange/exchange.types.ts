@@ -8,4 +8,5 @@ type ExchangeData = {
 }
 export type Exchange = {
 	NBU: ExchangeData
+	Layer: ExchangeData
 }
