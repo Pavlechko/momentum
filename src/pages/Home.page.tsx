@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { UserContext } from "../context/UserContext";
 import { DataContext } from "../context/DataContext";
@@ -11,15 +13,23 @@ import Greeting from "../features/greeting/components/greeting.component";
 
 import "./Home.style.css";
 import MarketPage from "./Market.page";
+import SettingCard from "../features/settings/components/settings-card.component";
 
 
 const HomePage = () => {
   const { user } = useContext(UserContext)
   const { data } = useContext(DataContext)
+
+  const [isOpenSettings, setIsOpenSettings] = useState(false)
   
   const clickHandler = () => {
     localStorage.removeItem("token");
     window.location.reload();
+  }
+
+  const optionsHandler = () => {
+    // use State with toogle
+    setIsOpenSettings(!isOpenSettings)
   }
 
   return(
@@ -33,6 +43,10 @@ const HomePage = () => {
       <div className="background-text">
         <a href={data.Backgroung.Unsplash.source_url} target="_blank">{data.Backgroung.Unsplash.photographer} / {data.Backgroung.Unsplash.source}</a>
       </div>
+      {isOpenSettings && <SettingCard />}
+      <IconButton aria-label="skip" onClick={optionsHandler}>
+        <SettingsIcon />
+      </IconButton>
     </div>
   )
 };
