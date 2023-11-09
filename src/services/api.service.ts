@@ -113,6 +113,18 @@ export async function getData() {
     }
 }
 
-export function getLocalToken() {
+export async function updateQuote() {
+    const token = localStorage.getItem("token")
+    try {
+        const response = await axiosInstance.put("/setting/quote", null, {
+            headers: {
+                Authorization: `Bearer ${token ? token : " "}`
+            }
+        })
+        console.log("Update quote :", response)
+        return response
 
+    } catch (error) {
+        console.error(error)
+    }
 }
