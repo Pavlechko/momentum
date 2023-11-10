@@ -1,5 +1,14 @@
+.quote {
+    position: absolute;
+    bottom: 5px;
+    max-width: 1000px;
+    left: 50%;
+    transform: translate(-50%, -10%);
+}
+
 .quote > h6 {
     width: 100vw;
+    max-width: 1000px;
     text-align: center;
 }
 

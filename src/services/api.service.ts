@@ -113,10 +113,10 @@ export async function getData() {
     }
 }
 
-export async function updateQuote() {
+export async function updateApiData(endpoint: string) {
     const token = localStorage.getItem("token")
     try {
-        const response = await axiosInstance.put("/setting/quote", null, {
+        const response = await axiosInstance.put(`/setting/${endpoint}`, null, {
             headers: {
                 Authorization: `Bearer ${token ? token : " "}`
             }

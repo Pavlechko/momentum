@@ -44,9 +44,11 @@ const HomePage = () => {
         <a href={data.Backgroung.Unsplash.source_url} target="_blank">{data.Backgroung.Unsplash.photographer} / {data.Backgroung.Unsplash.source}</a>
       </div>
       {isOpenSettings && <SettingCard />}
-      <IconButton aria-label="skip" onClick={optionsHandler}>
-        <SettingsIcon />
-      </IconButton>
+      <div className="setting">
+        <IconButton  aria-label="skip" onClick={optionsHandler}>
+          <SettingsIcon />
+        </IconButton>
+      </div>
     </div>
   )
 };
