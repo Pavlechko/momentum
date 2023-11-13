@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
 import { User } from "../context/UserContext";
+import { WeatherRequest } from "../models/Weather/weather.typse";
 
 type jwt = {
     exp: number,
@@ -122,6 +123,22 @@ export async function updateApiData(endpoint: string) {
             }
         })
         console.log("Update quote :", response)
+        return response
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export async function updateWeather(data: WeatherRequest) {
+    const token = localStorage.getItem("token")
+    try {
+        const response = await axiosInstance.put(`/setting/weather`, data, {
+            headers: {
+                Authorization: `Bearer ${token ? token : " "}`
+            }
+        })
+        console.log("Update weather :", response)
         return response
 
     } catch (error) {

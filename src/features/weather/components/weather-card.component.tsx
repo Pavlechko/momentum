@@ -1,14 +1,12 @@
 import { FC, useState } from "react";
-import { Box, Card, CardActions, CardContent, Collapse, FormControl, IconButton, IconButtonProps, InputLabel, NativeSelect, SelectChangeEvent, Typography, styled } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Card, CardContent, IconButton, IconButtonProps, Typography, styled } from "@mui/material";
 
-import { WeatherData } from "../../../models/Weather/weather.typse";
+import { Weather } from "../../../models/Weather/weather.typse";
 
 import "./weather-card.style.css";
 
 type Props = {
-    weatherData: WeatherData
-    setSelectedOption: React.Dispatch<React.SetStateAction<string>>
+    weatherData: Weather
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -26,17 +24,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
   }));
 
-const WeatherCard: FC<Props> = ({weatherData, setSelectedOption}) => {
-    const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedOption(event.target.value);
-        setExpanded(!expanded);
-    };
+const WeatherCard: FC<Props> = ({weatherData}) => {
 
     const getWeatherIcon = (code: string) => {
         return <img src={`/images/${code}.png`} alt="Weather Icon" />
@@ -69,31 +57,6 @@ const WeatherCard: FC<Props> = ({weatherData, setSelectedOption}) => {
               Source: {weatherData.source}
             </Typography>
           </CardContent>
-          <CardActions disableSpacing>
-            <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            
-            >
-            <ExpandMoreIcon sx={{color: "whitesmoke"}} />
-            </ExpandMore>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <FormControl fullWidth>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native" sx={{color: "whitesmoke"}}>
-                    Choose weather provider
-                </InputLabel>
-                <NativeSelect
-                    onChange={handleChange}
-                >
-                    <option></option>
-                    <option value={"OpenWeather"}>OpenWeatherAPI</option>
-                    <option value={"TomorrowWeather"}>Tomorrow.io API</option>
-                </NativeSelect>
-            </FormControl>
-          </Collapse>
         </Card>
     );
 };
