@@ -5,6 +5,7 @@ import { UserRequest } from "../models/Auth/user.types";
 import { User } from "../context/UserContext";
 import { WeatherRequest } from "../models/Weather/weather.typse";
 import { ExchangeRequest } from "../models/Exchange/exchange.types";
+import { MarketRequest } from "../models/Market/market.types";
 
 type jwt = {
     exp: number,
@@ -115,7 +116,7 @@ export async function getData() {
     }
 }
 
-export async function updateApiData(endpoint: string, data: WeatherRequest | ExchangeRequest | null = null) {
+export async function updateApiData(endpoint: string, data: WeatherRequest | MarketRequest | ExchangeRequest | null = null) {
     const token = localStorage.getItem("token")
     try {
         const response = await axiosInstance.put(`/setting/${endpoint}`, data, {

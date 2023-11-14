@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { FC, useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { FormControl, InputLabel, NativeSelect, Switch } from '@mui/material';
 
 import { DataContext } from '../../../context/DataContext';
 import { updateApiData } from '../../../services/api.service';
@@ -11,11 +11,18 @@ import { CITIES, Weather, WeatherRequest } from '../../../models/Weather/weather
 import { CURRENCIES, EXCHANGE_PROVIDERS, Exchange, ExchangeRequest } from '../../../models/Exchange/exchange.types';
 
 import './settings-card.style.css';
+import { COMPANIES, Market, MarketRequest } from '../../../models/Market/market.types';
 
-const SettingCard = () => {
+type Props = {
+  is24HourFormat: boolean,
+  setIs24HourFormat: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const SettingCard: FC<Props> = ({is24HourFormat, setIs24HourFormat}) => {
     const {data, setData} = useContext(DataContext)
     const isNBU = data.Exchange.source === "NBU"
     const isUAH = data.Exchange.from === "UAH"
+    const label = { inputProps: { 'aria-label': 'Toggle 24-Hour Format' } };
 
     function skipQuoteHandler() {        
       updateApiData("quote")
@@ -171,6 +178,36 @@ const SettingCard = () => {
       makeExchangeReq(reqData)
     };
 
+    const handleChangeMarketFrom = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.target.value === "") {
+        return
+      }
+      const reqData: MarketRequest = {
+        symbol: event.target.value
+      }
+      updateApiData("market", reqData)
+      .then(r => {
+        if (r) {
+          if (r.data === "") {
+            return
+          }
+          const res = r.data as Market
+          data.Market = res;
+          setData(prevData => ({
+            ...prevData,
+            Market: {
+              symbol: res.symbol,
+              price: res.price,
+              change: res.change,
+              change_percent: res.change_percent
+            }
+          }))
+        } else {
+          console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+        }
+      })
+    };
+
     return (
         <div className="container">
             <div className='quote-container'>
@@ -277,6 +314,32 @@ const SettingCard = () => {
                 </NativeSelect>
               </FormControl>
               }              
+              <hr />
+            </div>
+            <div className='market-container'>
+              <h3>Market</h3>
+              <FormControl variant="standard">
+                  <InputLabel id="select-label">
+                    Company
+                  </InputLabel>
+                  <NativeSelect
+                    onChange={handleChangeMarketFrom}
+                  >
+                    <option></option>
+                    {COMPANIES.map((item, index) => {
+                      if (item === data.Market.symbol) {
+                        return
+                      }
+                      return <option key={index} value={item}>{item}</option>
+                    })}
+                  </NativeSelect>
+                  </FormControl>
+              <hr />
+            </div>
+            <div className='clock-container'>
+              <h3>Time</h3>
+              <p>24-hour clock</p>
+              <Switch {...label} checked={is24HourFormat} onClick={() => setIs24HourFormat(!is24HourFormat)} />
               <hr />
             </div>
         </div>

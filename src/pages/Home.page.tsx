@@ -21,6 +21,8 @@ const HomePage = () => {
   const { data } = useContext(DataContext)
 
   const [isOpenSettings, setIsOpenSettings] = useState(false)
+  const [is24HourFormat, setIs24HourFormat] = useState<boolean>(true);
+
   
   const clickHandler = () => {
     localStorage.removeItem("token");
@@ -28,14 +30,13 @@ const HomePage = () => {
   }
 
   const optionsHandler = () => {
-    // use State with toogle
     setIsOpenSettings(!isOpenSettings)
   }
 
   return(
     <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.image}")`}}>
       <Button variant="contained" size="large" sx={{backgroundColor: "transparent", fontSize: 18}} endIcon={<FollowTheSignsIcon />} onClick={clickHandler}>SignOut</Button>
-      <Greeting name={user.name} />
+      <Greeting name={user.name} is24HourFormat={is24HourFormat} />
       <WeatherPage weatherData={data.Weather} />
       <ExchangePage exchangeData={data.Exchange} />
       <MarketPage marketData={data.Market} />
@@ -43,7 +44,7 @@ const HomePage = () => {
       <div className="background-text">
         <a href={data.Backgroung.source_url} target="_blank">{data.Backgroung.photographer} / {data.Backgroung.source}</a>
       </div>
-      {isOpenSettings && <SettingCard />}
+      {isOpenSettings && <SettingCard  is24HourFormat={is24HourFormat} setIs24HourFormat={setIs24HourFormat} />}
       <div className="setting">
         <IconButton  aria-label="skip" onClick={optionsHandler}>
           <SettingsIcon />
