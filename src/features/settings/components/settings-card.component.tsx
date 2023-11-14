@@ -1,18 +1,21 @@
 import { useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 import { DataContext } from '../../../context/DataContext';
-import { updateApiData, updateWeather } from '../../../services/api.service';
+import { updateApiData } from '../../../services/api.service';
 import { Quote } from '../../../models/Quote/quote.types';
+import { Background } from '../../../models/Background/background.types';
+import { CITIES, Weather, WeatherRequest } from '../../../models/Weather/weather.typse';
+import { CURRENCIES, EXCHANGE_PROVIDERS, Exchange, ExchangeRequest } from '../../../models/Exchange/exchange.types';
 
 import './settings-card.style.css';
-import { Background } from '../../../models/Background/background.types';
-import { FormControl, InputLabel, NativeSelect } from '@mui/material';
-import { CITIES, Weather, WeatherRequest } from '../../../models/Weather/weather.typse';
 
 const SettingCard = () => {
     const {data, setData} = useContext(DataContext)
+    const isNBU = data.Exchange.source === "NBU"
+    const isUAH = data.Exchange.from === "UAH"
 
     function skipQuoteHandler() {        
       updateApiData("quote")
@@ -56,7 +59,7 @@ const SettingCard = () => {
     }
 
     const makeWeatherReq = (reqData: WeatherRequest) => {
-      updateWeather(reqData)
+      updateApiData("weather", reqData)
       .then(r => {
         if (r) {
           const res = r.data as Weather
@@ -80,17 +83,37 @@ const SettingCard = () => {
       })
     }
 
+    const makeExchangeReq = (reqData: ExchangeRequest) => {
+      updateApiData("exchange", reqData)
+      .then(r => {
+        if (r) {
+          const res = r.data as Exchange
+          data.Exchange = res;
+          setData(prevData => ({
+            ...prevData,
+            Exchange: {
+              change: res.change,
+              end_rate: res.end_rate,
+              from: res.from,
+              to: res.to,
+              source: res.source
+            }
+          }))
+        } else {
+          console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+        }
+      })
+    }
+
     const handleChangeWeatherPro = (event: React.ChangeEvent<HTMLSelectElement>) => {
       if (event.target.value === "") {
         return
       }
-      console.log(event.target.value);
       const currentCity = data.Weather.city
       const reqData: WeatherRequest = {
         city: currentCity,
         source: event.target.value
       }
-      console.log("reqData: ", reqData)
       makeWeatherReq(reqData)
     };
 
@@ -98,14 +121,54 @@ const SettingCard = () => {
       if (event.target.value === "") {
         return
       }
-      console.log(event.target.value);
       const currentSource = data.Weather.source
       const reqData: WeatherRequest = {
         city: event.target.value,
         source: currentSource
       }
-      console.log("reqData: ", reqData)
       makeWeatherReq(reqData)
+    };
+
+    const handleChangeExchengeFrom = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.target.value === "") {
+        return
+      }
+      const currentSource = data.Exchange.source
+      const toCurrency = data.Exchange.to
+      const reqData: ExchangeRequest = {
+        from: event.target.value,
+        to: toCurrency,
+        source: currentSource
+      }
+      makeExchangeReq(reqData)
+    };
+
+    const handleChangeExchengeTo = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.target.value === "") {
+        return
+      }
+      const currentSource = data.Exchange.source
+      const currentBaseCurrency = data.Exchange.from
+      const reqData: ExchangeRequest = {
+        from: currentBaseCurrency,
+        to: event.target.value,
+        source: currentSource
+      }
+      makeExchangeReq(reqData)
+    };
+
+    const handleChangeExchengeProv = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (event.target.value === "") {
+        return
+      }
+      const currentBaseCurrency = data.Exchange.from
+      const toCurrency = data.Exchange.to
+      const reqData: ExchangeRequest = {
+        from: currentBaseCurrency,
+        to: toCurrency,
+        source: event.target.value
+      }
+      makeExchangeReq(reqData)
     };
 
     return (
@@ -139,8 +202,8 @@ const SettingCard = () => {
                     <option value={"OpenWeather"}>OpenWeatherAPI</option>
                     <option value={"TomorrowWeather"}>Tomorrow.io API</option>
                 </NativeSelect>
-            </FormControl>
-            <FormControl variant="standard">
+              </FormControl>
+              <FormControl variant="standard">
                 <InputLabel id="select-label">
                   Choose City
                 </InputLabel>
@@ -153,6 +216,68 @@ const SettingCard = () => {
                     ))}
                 </NativeSelect>
             </FormControl>
+            <hr />
+            </div>
+            <div className='exchange-container'>
+              <h3>Exchange</h3>
+                {isNBU ? <p>It is not possible to choose a currency other than UAH, change the provider</p> :
+                  <FormControl variant="standard">
+                  <InputLabel id="select-label">
+                    From
+                  </InputLabel>
+                  <NativeSelect
+                    onChange={handleChangeExchengeFrom}
+                  >
+                    <option></option>
+                    {CURRENCIES.map((item, index) => {
+                      if (item === data.Exchange.from || item === data.Exchange.to) {
+                        return
+                      }
+                      if (data.Exchange.source === "NBU") {
+                        return
+                      }
+                      return <option key={index} value={item}>{item}</option>
+                    })}
+                  </NativeSelect>
+                  </FormControl>
+                }
+              <br/>
+              <FormControl variant="standard">
+                <InputLabel id="select-label">
+                    To
+                </InputLabel>
+                <NativeSelect
+                    onChange={handleChangeExchengeTo}
+                >
+                    <option></option>
+                    {CURRENCIES.map((item, index) => {
+                      if (item === data.Exchange.to || item === data.Exchange.from) {
+                        return
+                      }
+                      return <option key={index} value={item}>{item}</option>
+                    })}
+                </NativeSelect>
+              </FormControl>
+              <br/>
+              { !isUAH ? <p>Unable to select another provider, change base currency to UAH</p> : 
+                <FormControl variant="standard">
+                <InputLabel id="select-label">
+                  Choose provider
+                </InputLabel>
+                <NativeSelect
+                    onChange={handleChangeExchengeProv}
+                >
+                    <option></option>
+                    {EXCHANGE_PROVIDERS.map((item, index) => {
+                      if (item === data.Exchange.source) {
+                        return
+                      }
+                      return <option key={index} value={item}>{item}</option>
+                    })}
+                </NativeSelect>
+              </FormControl>
+              }              
+              <hr />
             </div>
         </div>
     )

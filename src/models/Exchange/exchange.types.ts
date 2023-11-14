@@ -1,12 +1,22 @@
-export type Rate = {
+export type Exchange = {
 	change: number,
 	end_rate: number,
+	from: string,
+	to: string,
+	source: string
 }
 
-type ExchangeData = {
-	[symbol: string]: Rate
+export type ExchangeRequest = {
+	from: string,
+	to: string,
+	source: string
 }
-export type Exchange = {
-	NBU: ExchangeData
-	Layer: ExchangeData
-}
+
+export const CURRENCIES = [
+	"AUD", "BRL", "EGP", "CAD", "CLP", "CNY", "CZK", "EGP", "EUR", "GBP", "HKD",
+	"INR", "JPY", "KRW", "LTL", "LVL", "TRY", "USD", "XAG", "XAU", "UAH", "PLN"
+]
+
+export const EXCHANGE_PROVIDERS = [
+	"NBU", "Layer"
+]

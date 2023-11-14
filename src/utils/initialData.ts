@@ -23,18 +23,11 @@ export const initialData: ResponseData = {
     source_url: "string",
   },
   Exchange: {
-    NBU: {
-      USD: {
         change: 0,
-        end_rate: 0
-      }
-    },
-    Layer: {
-      USD: {
-        change: 0,
-        end_rate: 0
-      }
-    }
+        end_rate: 0,
+        from: "string",
+        to: "string",
+        source: "string"
   },
   Market: {
     symbol: "string",
