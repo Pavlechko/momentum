@@ -36,7 +36,7 @@ export const DataProvider = ({ children }: DataProviderProps) => {
                 console.log(res)
                 responseData.Weather = res.Weather;
                 responseData.Quote = res.Quote;
-                responseData.Backgroung = res.Backgroung
+                responseData.Background = res.Background
                 responseData.Exchange = res.Exchange
                 responseData.Market = res.Market
                 setData(res)

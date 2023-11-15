@@ -15,7 +15,7 @@ export const initialData: ResponseData = {
       author: "string",
       content: "string"
   },
-  Backgroung: {
+  Background: {
     alt: "string",
     image: "string",
     photographer: "string",

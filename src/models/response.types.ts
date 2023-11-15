@@ -7,7 +7,7 @@ import { Weather } from "./Weather/weather.typse"
 export type ResponseData = {
     Weather: Weather
     Quote: Quote
-    Backgroung: Background
+    Background: Background
     Exchange: Exchange
     Market: Market
 }

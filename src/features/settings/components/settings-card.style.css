@@ -1,9 +1,20 @@
 .container {
+    padding: 10px;
     position: absolute;
+    border-radius: 10px;
     left: 15px;
     bottom: 50px;
-    width: 300px;
-    height: 340px;
+    max-width: 400px;
+    max-height: 420px;
     background-color: whitesmoke;
     overflow: auto;
+}
+
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 10px;
 }

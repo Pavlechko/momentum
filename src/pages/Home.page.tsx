@@ -34,7 +34,7 @@ const HomePage = () => {
   }
 
   return(
-    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Backgroung.image}")`}}>
+    <div className="home" style={{position: "relative", backgroundImage: `url("${data.Background.image}")`}}>
       <Button variant="contained" size="large" sx={{backgroundColor: "transparent", fontSize: 18}} endIcon={<FollowTheSignsIcon />} onClick={clickHandler}>SignOut</Button>
       <Greeting name={user.name} is24HourFormat={is24HourFormat} />
       <WeatherPage weatherData={data.Weather} />
@@ -42,7 +42,7 @@ const HomePage = () => {
       <MarketPage marketData={data.Market} />
       <QuoteCard quoteData={data.Quote} />
       <div className="background-text">
-        <a href={data.Backgroung.source_url} target="_blank">{data.Backgroung.photographer} / {data.Backgroung.source}</a>
+        <a href={data.Background.source_url} target="_blank">{data.Background.photographer} / {data.Background.source}</a>
       </div>
       {isOpenSettings && <SettingCard  is24HourFormat={is24HourFormat} setIs24HourFormat={setIs24HourFormat} />}
       <div className="setting">
