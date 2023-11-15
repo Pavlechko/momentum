@@ -18,11 +18,18 @@ const QuoteSettings = () => {
                 const res = r.data as Quote
                 data.Quote = res;
                 setData(prevData => ({
-                ...prevData,
-                Quote: {
-                    author: res.author,
-                    content: res.content
-                }
+                    ...prevData,
+                    Quote: {
+                        author: res.author,
+                        content: res.content
+                    },
+                    Settings: {
+                        ...prevData.Settings,
+                        Quote: {
+                            author: res.author,
+                            content: res.content
+                        }
+                    }
                 }))
             } else {
                 console.log("Something went wrong! Data is empty. Initial data will be displayed.")

@@ -42,3 +42,7 @@ export const CITIES = [
     "Kramatorsk",
     "Kropyvnytskyi",
 ]
+
+export const WEATHER_PROVIDERS = [
+	"OpenWeather", "TomorrowWeather"
+]

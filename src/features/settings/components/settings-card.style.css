@@ -4,8 +4,8 @@
     border-radius: 10px;
     left: 15px;
     bottom: 50px;
-    max-width: 400px;
-    max-height: 420px;
+    width: 400px;
+    height: 420px;
     background-color: whitesmoke;
     overflow: auto;
 }

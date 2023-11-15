@@ -16,14 +16,24 @@ const BackgroundSettings = () => {
                 const res = r.data as Background
                 data.Background = res;
                 setData(prevData => ({
-                ...prevData,
-                Background: {
-                    alt: res.alt,
-                    image: res.image,
-                    photographer: res.photographer,
-                    source: res.source,
-                    source_url: res.source_url,
-                }
+                    ...prevData,
+                    Background: {
+                        alt: res.alt,
+                        image: res.image,
+                        photographer: res.photographer,
+                        source: res.source,
+                        source_url: res.source_url,
+                    },
+                    Settings: {
+                        ...prevData.Settings,
+                        Background: {
+                            alt: res.alt,
+                            image: res.image,
+                            photographer: res.photographer,
+                            source: res.source,
+                            source_url: res.source_url,
+                        }
+                    }
                 }))
             } else {
                 console.log("Something went wrong! Data is empty. Initial data will be displayed.")
@@ -57,13 +67,13 @@ const BackgroundSettings = () => {
                 </IconButton>
             </div>
             <FormControl variant="standard">
-                <InputLabel id="select-label">
+                <InputLabel variant="standard" id="select-label">
                     Choose provider
                 </InputLabel>
                 <NativeSelect
                     onChange={handleChangeBackgroundPro}
                 >
-                    <option></option>
+                    <option>{data.Settings.Background.source}</option>
                     {BACKGROUND_PROVIDERS.map((item, index) => {
                       if (item === data.Background.source) {
                         return
