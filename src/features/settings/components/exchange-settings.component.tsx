@@ -1,11 +1,12 @@
-import { useContext } from "react"
-import { FormControl, InputLabel, NativeSelect } from "@mui/material"
+import { useContext } from "react";
+import { FormControl, InputLabel, NativeSelect } from "@mui/material";
 
-import { DataContext } from "../../../context/DataContext"
-import { CURRENCIES, EXCHANGE_PROVIDERS, Exchange, ExchangeRequest } from "../../../models/Exchange/exchange.types"
-import { updateApiData } from "../../../services/api.service"
+import { DataContext } from "../../../context/DataContext";
+import { CURRENCIES, EXCHANGE_PROVIDERS, Exchange, ExchangeRequest } from "../../../models/Exchange/exchange.types";
+import { updateApiData } from "../../../services/api.service";
+import { SettingProps } from "./settings-card.component";
 
-const ExchangeSettings = () => {
+const ExchangeSettings = ({toastError}: SettingProps) => {
     const {data, setData} = useContext(DataContext)
     const isNBU = data.Exchange.source === "NBU"
     const isUAH = data.Exchange.from === "UAH"
@@ -35,7 +36,7 @@ const ExchangeSettings = () => {
                     }
                 }))
             } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+                toastError()
             }
         })
     }

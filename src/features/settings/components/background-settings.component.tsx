@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { FormControl, IconButton, InputLabel, NativeSelect } from "@mui/material"
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
+import { SettingProps } from "./settings-card.component";
 import { DataContext } from "../../../context/DataContext";
 import { updateApiData } from "../../../services/api.service";
 import { BACKGROUND_PROVIDERS, Background, BackgroundRequest } from "../../../models/Background/background.types";
 
-const BackgroundSettings = () => {
+const BackgroundSettings = ({toastError}: SettingProps) => {
     const {data, setData} = useContext(DataContext)
 
     function makeBackgroundReq(reqData: BackgroundRequest) {
@@ -36,7 +37,7 @@ const BackgroundSettings = () => {
                     }
                 }))
             } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+                toastError()
             }
         })
     }

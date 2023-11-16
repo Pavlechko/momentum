@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { FormControl, InputLabel, NativeSelect } from "@mui/material";
 
+import { SettingProps } from "./settings-card.component";
 import { DataContext } from "../../../context/DataContext";
 import { COMPANIES, Market, MarketRequest } from "../../../models/Market/market.types";
 import { updateApiData } from "../../../services/api.service";
 
-const MarketSettings = () => {
+const MarketSettings = ({toastError}: SettingProps) => {
     const {data, setData} = useContext(DataContext)
 
     const handleChangeMarketFrom = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,7 +40,7 @@ const MarketSettings = () => {
                     }
                 }))
             } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+                toastError()
             }
         })
     };

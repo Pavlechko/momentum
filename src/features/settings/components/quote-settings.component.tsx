@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { IconButton } from "@mui/material"
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
+import { SettingProps } from "./settings-card.component";
 import { updateApiData } from "../../../services/api.service";
 import { Quote } from "../../../models/Quote/quote.types";
 import { DataContext } from "../../../context/DataContext";
 
 import "./quote-settings.style.css";
 
-const QuoteSettings = () => {
+const QuoteSettings = ({toastError}: SettingProps) => {
     const {data, setData} = useContext(DataContext)
 
     function skipQuoteHandler() {        
@@ -32,7 +33,7 @@ const QuoteSettings = () => {
                     }
                 }))
             } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+                toastError()
             }
         })
     }
