@@ -42,7 +42,7 @@ const HomePage = () => {
       <MarketPage marketData={data.Market} />
       <QuoteCard quoteData={data.Quote} />
       <div className="background-text">
-        <a href={data.Background.source_url} target="_blank">{data.Background.photographer} / {data.Background.source}</a>
+        <a href={data.Background.source_url} target="_blank" rel="noreferrer">{data.Background.photographer} / {data.Background.source}</a>
       </div>
       <Modal
         open={isOpenSettings}
@@ -50,7 +50,9 @@ const HomePage = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <SettingCard is24HourFormat={is24HourFormat} setIs24HourFormat={setIs24HourFormat} />
+        <Box>
+          <SettingCard is24HourFormat={is24HourFormat} setIs24HourFormat={setIs24HourFormat} />
+        </Box>
       </Modal>
       <Box className="setting">
         <IconButton  aria-label="skip" onClick={optionsHandler}>

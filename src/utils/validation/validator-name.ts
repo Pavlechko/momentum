@@ -1,5 +1,4 @@
 import { Validation } from '../../models/validation.types';
-import { isValidLength } from './validator-length';
 
 export const validateName: Validation = (name: string) => {
   if (name.length === 0) {

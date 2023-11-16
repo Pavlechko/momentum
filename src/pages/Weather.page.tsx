@@ -1,5 +1,5 @@
 import WeatherCard from "../features/weather/components/weather-card.component";
-import { Weather } from "../models/Weather/weather.typse";
+import { Weather } from "../models/Weather/weather.types";
 
 type Props = {
     weatherData: Weather

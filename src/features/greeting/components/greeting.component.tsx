@@ -6,7 +6,6 @@ type Props = {
     name: string,
     is24HourFormat: boolean
 }
-const label = { inputProps: { 'aria-label': 'Toggle 24-Hour Format' } };
 
 const Greeting: FC<Props> = ({name, is24HourFormat}) => {
     const [time, setTime] = useState<string>("");

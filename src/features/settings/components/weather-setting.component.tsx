@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { FormControl, InputLabel, NativeSelect } from "@mui/material"
 
-import { CITIES, WEATHER_PROVIDERS, Weather, WeatherRequest } from "../../../models/Weather/weather.typse"
+import { CITIES, WEATHER_PROVIDERS, Weather, WeatherRequest } from "../../../models/Weather/weather.types"
 import { DataContext } from "../../../context/DataContext"
 import { updateApiData } from "../../../services/api.service"
 

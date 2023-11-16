@@ -2,7 +2,7 @@ import { Background } from "./Background/background.types"
 import { Exchange, ExchangeRequest } from "./Exchange/exchange.types"
 import { Quote } from "./Quote/quote.types"
 import { Market, MarketRequest } from "./Market/market.types"
-import { Weather, WeatherRequest } from "./Weather/weather.typse"
+import { Weather, WeatherRequest } from "./Weather/weather.types"
 
 export type Settings = {
     Weather: WeatherRequest

@@ -1,28 +1,13 @@
-import { FC, useState } from "react";
-import { Box, Card, CardContent, IconButton, IconButtonProps, Typography, styled } from "@mui/material";
+import { FC } from "react";
+import { Box, Card, CardContent, Typography} from "@mui/material";
 
-import { Weather } from "../../../models/Weather/weather.typse";
+import { Weather } from "../../../models/Weather/weather.types";
 
 import "./weather-card.style.css";
 
 type Props = {
     weatherData: Weather
 }
-
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  }));
 
 const WeatherCard: FC<Props> = ({weatherData}) => {
 

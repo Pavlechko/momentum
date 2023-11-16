@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
 import { User } from "../context/UserContext";
-import { WeatherRequest } from "../models/Weather/weather.typse";
+import { WeatherRequest } from "../models/Weather/weather.types";
 import { ExchangeRequest } from "../models/Exchange/exchange.types";
 import { MarketRequest } from "../models/Market/market.types";
 import { BackgroundRequest } from "../models/Background/background.types";
