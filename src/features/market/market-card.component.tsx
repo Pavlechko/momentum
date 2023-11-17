@@ -22,7 +22,7 @@ const MarketCard: FC<Props> = ({marketData}) => {
                     ? <>
                         <Box display="flex" alignItems="center">
                             <Typography variant="h5">
-                                - {Number(marketData.change).toFixed(4)}
+                                {Number(marketData.change).toFixed(4)}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center">
@@ -46,7 +46,6 @@ const MarketCard: FC<Props> = ({marketData}) => {
                             </Typography>
                         </Box>                    
                     </>
-                    
                     : <>
                         <Box display="flex" alignItems="center">
                             <Typography variant="h5">

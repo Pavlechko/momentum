@@ -3,6 +3,10 @@ import jwt_decode from "jwt-decode";
 
 import { UserRequest } from "../models/Auth/user.types";
 import { User } from "../context/UserContext";
+import { WeatherRequest } from "../models/Weather/weather.types";
+import { ExchangeRequest } from "../models/Exchange/exchange.types";
+import { MarketRequest } from "../models/Market/market.types";
+import { BackgroundRequest } from "../models/Background/background.types";
 
 type jwt = {
     exp: number,
@@ -113,6 +117,18 @@ export async function getData() {
     }
 }
 
-export function getLocalToken() {
+export async function updateApiData(endpoint: string, data: WeatherRequest | MarketRequest | ExchangeRequest | BackgroundRequest | null = null) {
+    const token = localStorage.getItem("token")
+    try {
+        const response = await axiosInstance.put(`/setting/${endpoint}`, data, {
+            headers: {
+                Authorization: `Bearer ${token ? token : " "}`
+            }
+        })
+        console.log("Update data :", response)
+        return response
 
+    } catch (error) {
+        console.error(error)
+    }
 }

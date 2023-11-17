@@ -36,9 +36,11 @@ export const DataProvider = ({ children }: DataProviderProps) => {
                 console.log(res)
                 responseData.Weather = res.Weather;
                 responseData.Quote = res.Quote;
-                responseData.Backgroung = res.Backgroung
+                responseData.Background = res.Background
                 responseData.Exchange = res.Exchange
                 responseData.Market = res.Market
+                responseData.Settings = res.Settings
+                localStorage.setItem("data", JSON.stringify(res));
                 setData(res)
               } else {
                 console.log("Something went wrong! Data is empty. Initial data will be displayed.")

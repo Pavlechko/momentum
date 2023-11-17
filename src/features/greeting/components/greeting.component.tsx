@@ -1,16 +1,13 @@
 import { FC, useEffect, useState } from "react";
 
-import { Typography, Switch } from "@mui/material";
-
 import "./greeting.style.css";
 
 type Props = {
-    name: string
+    name: string,
+    is24HourFormat: boolean
 }
-const label = { inputProps: { 'aria-label': 'Toggle 24-Hour Format' } };
 
-const Greeting: FC<Props> = ({name}) => {
-    const [is24HourFormat, setIs24HourFormat] = useState<boolean>(true);
+const Greeting: FC<Props> = ({name, is24HourFormat}) => {
     const [time, setTime] = useState<string>("");
     const [greet, setGreet] = useState<string>("");
 
@@ -57,7 +54,6 @@ const Greeting: FC<Props> = ({name}) => {
         <div className="greeting">
             <div className="clock">{time}</div>
             <h2>Good {greet}, {name}</h2>
-            <Switch {...label} onClick={() => setIs24HourFormat(!is24HourFormat)} />
         </div>
     );
 }

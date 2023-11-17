@@ -10,7 +10,7 @@ type Props = {
 
 const QuoteCard: FC<Props> = ({quoteData}) => {
     return (
-        <div className="quote" style={{position: "absolute", bottom: "5px"}}>
+        <div className="quote">
             <Typography className="quote-text" variant="h6" color="text.secondary">"{quoteData.content}"</Typography>
             <Typography variant="subtitle2" color="text.secondary">"{quoteData.author}"</Typography>
         </div>
