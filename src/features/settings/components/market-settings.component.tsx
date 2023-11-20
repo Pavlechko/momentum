@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { FormControl, InputLabel, NativeSelect } from "@mui/material";
+import { ToastContainer, Zoom, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import { SettingProps } from "./settings-card.component";
 import { DataContext } from "../../../context/DataContext";
@@ -20,9 +22,17 @@ const MarketSettings = ({toastError}: SettingProps) => {
         .then(r => {
             if (r) {
                 if (r.data === "") {
+                    console.log(r)
                     return
                 }
                 const res = r.data as Market
+                if(res.symbol == "") {
+                    console.log(res)
+                    toast.error("Sorry. You have used all Market API requests for today.", {
+                        hideProgressBar: true,
+                        progress: 0,
+                    });
+                }
                 data.Market = res;
                 setData(prevData => ({
                     ...prevData,
@@ -65,6 +75,7 @@ const MarketSettings = ({toastError}: SettingProps) => {
                 </NativeSelect>
             </FormControl>
             <hr />
+            <ToastContainer className="toast-text" transition={Zoom} />
         </div>
     )
 }
