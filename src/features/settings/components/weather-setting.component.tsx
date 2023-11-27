@@ -1,11 +1,12 @@
 import { useContext } from "react"
 import { FormControl, InputLabel, NativeSelect } from "@mui/material"
 
+import { SettingProps } from "./settings-card.component"
 import { CITIES, WEATHER_PROVIDERS, Weather, WeatherRequest } from "../../../models/Weather/weather.types"
 import { DataContext } from "../../../context/DataContext"
 import { updateApiData } from "../../../services/api.service"
 
-const WeatherSettings = () => {
+const WeatherSettings = ({toastError}: SettingProps) => {
     const {data, setData} = useContext(DataContext)
 
     const makeWeatherReq = (reqData: WeatherRequest) => {
@@ -35,7 +36,7 @@ const WeatherSettings = () => {
                     }
                 }))
             } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+                toastError()
             }
         })
     }

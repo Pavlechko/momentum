@@ -27,29 +27,33 @@ export const DataProvider = ({ children }: DataProviderProps) => {
   const responseData = initialData;
     
     useEffect(() => {
-        if (user.loggedIn) {
-          
-          getData()
-            .then(data => {
-              if (data) {
-                const res = data.data as ResponseData
-                console.log(res)
-                responseData.Weather = res.Weather;
-                responseData.Quote = res.Quote;
-                responseData.Background = res.Background
-                responseData.Exchange = res.Exchange
-                responseData.Market = res.Market
-                responseData.Settings = res.Settings
-                localStorage.setItem("data", JSON.stringify(res));
-                setData(res)
-              } else {
-                console.log("Something went wrong! Data is empty. Initial data will be displayed.")
-              }
-            })
-        }
-      }, [user.loggedIn])
+      if (user.loggedIn) {
+        
+        getData()
+          .then(data => {
+            if (data) {
+              const res = data.data as ResponseData
+              console.log(res)
+              responseData.Weather = res.Weather;
+              responseData.Quote = res.Quote;
+              responseData.Background = res.Background
+              responseData.Exchange = res.Exchange
+              responseData.Market = res.Market
+              responseData.Settings = res.Settings
+              setData(res)
+            } else {
+              console.log("Something went wrong! Data is empty. Initial data will be displayed.")
+            }
+          })
+      }
+    }, [user.loggedIn])
 
     const [data, setData] = useState<ResponseData>(responseData);
+
+    useEffect(() => {
+      localStorage.setItem("data", JSON.stringify(data));
+    }, [data])
+
 
     console.log("Data Context", data);
 
